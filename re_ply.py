@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 from time import sleep
 
 url = "https://web.whatsapp.com/"
@@ -13,6 +14,18 @@ class Whatsapp_access:
 		try:
 			ele = self.driver.find_element_by_xpath("//span[@title='" + name + "']")
 			ele.click()
+		except:
+			print("The contact does not exist.")
+
+	def search_user(self, name):
+		try:
+			ele = self.driver.find_element_by_css_selector("input#input-chatlist-search")
+
+			mouse = webdriver.ActionChains(self.driver)
+			mouse.move_to_element(ele).click().perform()
+			mouse.send_keys(name).perform()
+			mouse.perform()
+			self.driver.find_element_by_class_name("chat-body").click()
 		except:
 			print("The contact does not exist.")
 
